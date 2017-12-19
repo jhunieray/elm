@@ -5,10 +5,9 @@ class Home extends Admin_Controller {
 
 	public function index()
 	{
-		$this->load->model('user_model', 'users');
-		$this->mViewData['count'] = array(
-			'users' => $this->users->count_all(),
-		);
+		$this->load->model('Subscribers_model');
+		$subscribers = $this->Subscribers_model->get_all_subscribers();
+		$this->mViewData['subscribers_count'] = count($subscribers);
 		$this->render('home');
 	}
 }

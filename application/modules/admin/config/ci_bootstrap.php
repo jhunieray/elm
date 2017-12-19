@@ -15,19 +15,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['ci_bootstrap'] = array(
 
 	// Site name
-	'site_name' => 'Admin Panel',
+	'site_name' => 'Email List',
 
 	// Default page title prefix
-	'page_title_prefix' => '',
+	'page_title_prefix' => 'ELM - ',
 
 	// Default page title
-	'page_title' => '',
+	'page_title' => 'Email List Management',
 
 	// Default meta data
 	'meta_data'	=> array(
-		'author'		=> '',
-		'description'	=> '',
-		'keywords'		=> ''
+		'author'		=> 'Jhunie Ray Suarez',
+		'description'	=> 'Email List Management',
+		'keywords'		=> 'email, list, management'
 	),
 	
 	// Default scripts to embed at page head or end
@@ -35,9 +35,12 @@ $config['ci_bootstrap'] = array(
 		'head'	=> array(
 			'assets/dist/admin/adminlte.min.js',
 			'assets/dist/admin/lib.min.js',
-			'assets/dist/admin/app.min.js'
+			'assets/dist/admin/app.min.js',
 		),
 		'foot'	=> array(
+			/*'https://code.jquery.com/jquery-1.12.4.js',*/
+			'https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js',
+			'assets/custom/js/backend.js'
 		),
 	),
 
@@ -46,7 +49,8 @@ $config['ci_bootstrap'] = array(
 		'screen' => array(
 			'assets/dist/admin/adminlte.min.css',
 			'assets/dist/admin/lib.min.css',
-			'assets/dist/admin/app.min.css'
+			'assets/dist/admin/app.min.css',
+			'https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css'
 		)
 	),
 
@@ -64,6 +68,12 @@ $config['ci_bootstrap'] = array(
 			'url'		=> '',
 			'icon'		=> 'fa fa-home',
 		),
+		'subscribers' => array(
+			'name'		=> 'Subscribers',
+			'url'		=> 'subscribers',
+			'icon'		=> 'fa fa-users',
+		),
+		/*
 		'user' => array(
 			'name'		=> 'Users',
 			'url'		=> 'user',
@@ -74,6 +84,7 @@ $config['ci_bootstrap'] = array(
 				'User Groups'	=> 'user/group',
 			)
 		),
+		*/
 		'panel' => array(
 			'name'		=> 'Admin Panel',
 			'url'		=> 'panel',
@@ -104,15 +115,17 @@ $config['ci_bootstrap'] = array(
 
 	// Restricted pages
 	'page_auth' => array(
-		'user/create'				=> array('webmaster', 'admin', 'manager'),
-		'user/group'				=> array('webmaster', 'admin', 'manager'),
+		// Start Custom Modules
+		'subscribers'				=> array('webmaster', 'admin'),
+		// End Custom Modules
+
 		'panel'						=> array('webmaster'),
 		'panel/admin_user'			=> array('webmaster'),
 		'panel/admin_user_create'	=> array('webmaster'),
 		'panel/admin_user_group'	=> array('webmaster'),
 		'util'						=> array('webmaster'),
 		'util/list_db'				=> array('webmaster'),
-		'util/backup_db'			=> array('webmaster'),
+		'util/backup_db'			=> array('webmaster', 'admin'),
 		'util/restore_db'			=> array('webmaster'),
 		'util/remove_db'			=> array('webmaster'),
 	),
@@ -121,16 +134,14 @@ $config['ci_bootstrap'] = array(
 	'adminlte' => array(
 		'body_class' => array(
 			'webmaster'	=> 'skin-red',
-			'admin'		=> 'skin-purple',
-			'manager'	=> 'skin-black',
-			'staff'		=> 'skin-blue',
+			'admin'		=> 'skin-blue',
 		)
 	),
 
 	// Useful links to display at bottom of sidemenu
 	'useful_links' => array(
 		array(
-			'auth'		=> array('webmaster', 'admin', 'manager', 'staff'),
+			'auth'		=> array('webmaster'),
 			'name'		=> 'Frontend Website',
 			'url'		=> '',
 			'target'	=> '_blank',
@@ -144,9 +155,9 @@ $config['ci_bootstrap'] = array(
 			'color'		=> 'text-orange'
 		),
 		array(
-			'auth'		=> array('webmaster', 'admin', 'manager', 'staff'),
+			'auth'		=> array('webmaster', 'admin'),
 			'name'		=> 'Github Repo',
-			'url'		=> CI_BOOTSTRAP_REPO,
+			'url'		=> 'https://git.solidnode.net/pvt/listmanager',
 			'target'	=> '_blank',
 			'color'		=> 'text-green'
 		),

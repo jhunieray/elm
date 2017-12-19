@@ -1,3 +1,4 @@
+<input type="hidden" id="base_url" name="base_url" value="<?= base_url() ?>">
 <footer class="main-footer">
 	<?php if (ENVIRONMENT=='development'): ?>
 		<div class="pull-right hidden-xs">
