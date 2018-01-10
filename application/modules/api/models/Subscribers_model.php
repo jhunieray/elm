@@ -12,4 +12,10 @@ class Subscribers_model extends MY_Model {
 		$query = $this->db->get('subscribers_table');
 		return $query->result();
 	}
+
+	public function add_subscriber($subscriber)
+	{
+		$this->db->insert('subscribers', $subscriber);
+		return $this->db->insert_id();
+	}
 }

@@ -8,7 +8,7 @@ class Subscribers extends Admin_Controller {
 		parent::__construct();
 	}
 
-	// Subscribers CRUD
+	// Subscribers
 	public function index()
 	{
 		$this->mPageTitle = 'Subscribers';

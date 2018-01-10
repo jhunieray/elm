@@ -1,3 +1,4 @@
+<input type="hidden" id="base_url" name="base_url" value="<?= base_url() ?>">
 <div class="wrapper">
 
 	<?php $this->load->view('_partials/navbar'); ?>
