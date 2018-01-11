@@ -17,7 +17,8 @@ $(document).ready(function() {
 	});
 
 	var subs = $("#subscribers").DataTable( {
-		"processing": true,
+		select:       true,
+        "processing": true,
         "ajax": $("#base_url").val()+"api/subscribers/all",
         "columns": [
         	{ "data": "id" },
@@ -30,19 +31,31 @@ $(document).ready(function() {
             { "data": "date_updated" },
             { "data": "status" }
         ],
+        /*
         "columnDefs": [ {
             "targets": 9,
             "data": null,
-            "defaultContent": "<div class='btn-group'><a class='btn btn-warning btn-sm'><i class='fa fa-edit'></i></a><a class='btn btn-danger btn-sm'><i class='fa fa-trash'></i></a></div>"
+            "defaultContent": "<div class='btn-group'><button class='btn btn-warning btn-sm menu_btn' type='button' data-toggle='collapse' data-target='#panel_edit' aria-expanded='false' aria-controls='panel_edit'><i class='fa fa-edit'></i></button><button class='btn btn-danger btn-sm menu_btn' type='button' data-toggle='collapse' data-target='#panel_delete' aria-expanded='false' aria-controls='panel_delete'><i class='fa fa-trash'></i></button></div>"
         } ],
-        "order": [[ 0, "desc" ]],
-        scrollX:        true,
-        scrollCollapse: true,
-        fixedColumns:   {
-            leftColumns: 1,
-            rightColumns: 1
-        }
+        */
+        "order": [[ 0, "desc" ]]
+
     });
+
+    $('#subscribers tbody').on( 'click', 'tr', function () {
+        subs.rows().deselect();
+        $(this).toggleClass('selected');
+        
+        var data = subs.row(this).data();
+        $('#edit_category').val(data.category).change();
+        $('#edit_fname').val(data.fname);
+        $('#edit_lname').val(data.lname);
+        $('#edit_email').val(data.email);
+        $('#edit_address').val(data.address);
+        $('#edit_contact_no').val(data.contact_no);
+
+        $('#edit_btn').prop('disabled', false);
+    } );
 
     $('#form_add_subscriber').submit(function(e) {
         e.preventDefault();

@@ -41,6 +41,7 @@ $config['ci_bootstrap'] = array(
 			/*'https://code.jquery.com/jquery-1.12.4.js',*/
 			'https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js',
 			'https://cdn.datatables.net/fixedcolumns/3.2.4/js/dataTables.fixedColumns.min.js',
+			'https://cdn.datatables.net/select/1.2.4/js/dataTables.select.min.js',
 			'assets/custom/js/backend.js'
 		),
 	),
@@ -52,7 +53,8 @@ $config['ci_bootstrap'] = array(
 			'assets/dist/admin/lib.min.css',
 			'assets/dist/admin/app.min.css',
 			'https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css',
-			'https://cdn.datatables.net/fixedcolumns/3.2.4/css/fixedColumns.dataTables.min.css'
+			'https://cdn.datatables.net/fixedcolumns/3.2.4/css/fixedColumns.dataTables.min.css',
+			'https://cdn.datatables.net/select/1.2.4/css/select.dataTables.min.css'
 		)
 	),
 
