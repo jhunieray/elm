@@ -166,10 +166,11 @@ $(document).ready(function() {
         var url = window.location.hostname === 'localhost' ?
                     'http://localhost/email_ms/admin/fileupload' : 'https://elm.solidnode.net/admin/fileupload',
             uploadButton = $('<button/>')
-                .addClass('btn btn-primary')
-                .prop('disabled', true)
-                .text('Processing...')
+                .addClass('btn btn-primary btn-xs pull-right')
+                .prop('disabled', false)
+                .text('Import')
                 .on('click', function () {
+                    /*
                     var $this = $(this),
                         data = $this.data();
                     $this
@@ -182,6 +183,7 @@ $(document).ready(function() {
                     data.submit().always(function () {
                         $this.remove();
                     });
+                    */
                 });
         $('#fileupload').fileupload({
             url: url,
@@ -196,7 +198,7 @@ $(document).ready(function() {
                         .append($('<span/>').text(file.name));
                 if (!index) {
                     node
-                        .append('<br>')
+                        //.append('<br>')
                         .append(uploadButton.clone(true).data(data));
                 }
                 node.appendTo(data.context);
@@ -217,7 +219,7 @@ $(document).ready(function() {
             }
             if (index + 1 === data.files.length) {
                 data.context.find('button')
-                    .text('Upload')
+                    .text('Import')
                     .prop('disabled', !!data.files.error);
             }
         }).on('fileuploadprogressall', function (e, data) {
