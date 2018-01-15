@@ -66,4 +66,21 @@ class Subscribers extends MY_Controller {
 			die( json_encode($error) );
 		}
 	}
+
+	public function remove()
+	{
+		$data = json_decode(file_get_contents('php://input'));
+		foreach ($data as $key => $value) {
+			# code...
+			if(!$this->Subscribers_model->remove_subscriber($value)) {
+				$error['error'] = 'There was an error deleting your data.';
+				header('HTTP/1.1 500 Internal Server Error');
+	    		header('Content-Type: application/json; charset=UTF-8');
+				die( json_encode($error) );
+			}
+		}
+
+		header('Content-Type: application/json');
+		print json_encode(array('status' => 'SUCCESS'));
+	}
 }

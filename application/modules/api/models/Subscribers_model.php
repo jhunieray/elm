@@ -18,4 +18,10 @@ class Subscribers_model extends MY_Model {
 		$this->db->insert('subscribers', $subscriber);
 		return $this->db->insert_id();
 	}
+
+	public function remove_subscriber($subscriber_id)
+	{
+		$this->db->where('id', $subscriber_id);
+		return $this->db->delete('subscribers');
+	}
 }
