@@ -150,7 +150,6 @@
 				  	<?= form_close() ?>
 				</div>
 				<div class="collapse custom_panel" id="panel_import">
-				  	<?= form_open('api/subscribers/edit', array('id' => 'form_edit_subscriber')) ?>
 				  	<div class="row">
 				  		<div class="col-md-6">
 						  	<div class="box box-default">
@@ -158,29 +157,10 @@
 						  			<div class="row">
 						  				<div class="col-md-12">
 						  					<div class="form-group">
-											    <!-- The fileinput-button span is used to style the file input field as button -->
-											    <center>
-												    <span class="btn btn-success fileinput-button">
-												        <i class="glyphicon glyphicon-plus"></i>
-												        <span>Add files...</span>
-												        <!-- The file input field used as target for the file upload widget -->
-												        <input id="fileupload" type="file" name="files[]" multiple accept=".csv,text/plain">
-												    </span>
-												</center>
-											    <br>
-											    <br>
-											    <!-- The global progress bar -->
-											    <div id="progress" class="progress">
-											        <div class="progress-bar progress-bar-success"></div>
-											    </div>
-											    <!-- The container for the uploaded files -->
-											    <div id="files" class="files"></div>
+													<input id="fileupload" type="file" name="files[]" multiple accept=".csv,text/plain">
+													<button class="btn btn-warning btn-sm" id="import_btn" disabled="">Import</button>
+													<span class="text-danger" id="file_error"></span>
 						  					</div>
-						  				</div>
-						  			</div>
-						  			<div class="row">
-						  				<div class="col-md-12 text-right">
-						  					<p id="import_img" class="pull-left"></p>
 						  				</div>
 						  			</div>
 						  		</div>
@@ -214,7 +194,6 @@
 						  	</div>
 						</idv>
 					</div>
-				  	<?= form_close() ?>
 				</div>
 				<div class="collapse custom_panel" id="panel_export">
 				  	<h1>EXPORT</h1>

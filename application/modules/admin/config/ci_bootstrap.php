@@ -41,11 +41,7 @@ $config['ci_bootstrap'] = array(
 			/*'https://code.jquery.com/jquery-1.12.4.js',*/
 			'https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js',
 			'https://cdn.datatables.net/fixedcolumns/3.2.4/js/dataTables.fixedColumns.min.js',
-			'assets/custom/js/vendor/jquery.ui.widget.js',
-			'https://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js',
-			'assets/custom/js/jquery.iframe-transport.js',
-			'assets/custom/js/jquery.fileupload.js',
-			'assets/custom/js/jquery.fileupload-process.js',
+			'assets/custom/js/vendor/papaparse.min.js',
 			'assets/custom/js/backend.js'
 		),
 	),
@@ -58,8 +54,7 @@ $config['ci_bootstrap'] = array(
 			'assets/dist/admin/app.min.css',
 			'https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css',
 			'https://cdn.datatables.net/fixedcolumns/3.2.4/css/fixedColumns.dataTables.min.css',
-			'assets/custom/css/style.css',
-			'assets/custom/css/jquery.fileupload.css'
+			'assets/custom/css/style.css'
 		)
 	),
 
@@ -175,7 +170,7 @@ $config['ci_bootstrap'] = array(
 	// Debug tools
 	'debug' => array(
 		'view_data'	=> FALSE,
-		'profiler'	=> FALSE
+		'profiler'	=> TRUE
 	),
 );
 

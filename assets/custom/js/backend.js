@@ -158,121 +158,148 @@ $(document).ready(function() {
     	subs.ajax.reload();
     });
 
-    /*jslint unparam: true, regexp: true */
-    /*global window, $ */
-    $(function () {
-        'use strict';
-        // Change this to the location of your server-side upload handler:
-        var url = window.location.hostname === 'localhost' ?
-                    'http://localhost/email_ms/admin/fileupload' : 'https://elm.solidnode.net/admin/fileupload',
-            uploadButton = $('<button/>')
-                .addClass('btn btn-primary btn-xs pull-right')
-                .prop('disabled', false)
-                .text('Import')
-                .on('click', function () {
-                    /*
-                    var $this = $(this),
-                        data = $this.data();
-                    $this
-                        .off('click')
-                        .text('Abort')
-                        .on('click', function () {
-                            $this.remove();
-                            data.abort();
-                        });
-                    data.submit().always(function () {
-                        $this.remove();
-                    });
-                    */
-                });
-        $('#fileupload').fileupload({
-            url: url,
-            dataType: 'json',
-            autoUpload: true,
-            acceptFileTypes: /(\.|\/)(csv|txt)$/i,
-            maxFileSize: 999000
-        }).on('fileuploadadd', function (e, data) {
-            data.context = $('<div/>').appendTo('#files');
-            $.each(data.files, function (index, file) {
-                var node = $('<p/>')
-                        .append($('<span/>').text(file.name));
-                if (!index) {
-                    node
-                        //.append('<br>')
-                        .append(uploadButton.clone(true).data(data));
-                }
-                node.appendTo(data.context);
-            });
-        }).on('fileuploadprocessalways', function (e, data) {
-            var index = data.index,
-                file = data.files[index],
-                node = $(data.context.children()[index]);
-            if (file.preview) {
-                node
-                    .prepend('<br>')
-                    .prepend(file.preview);
-            }
-            if (file.error) {
-                node
-                    .append('<br>')
-                    .append($('<span class="text-danger"/>').text(file.error));
-            }
-            if (index + 1 === data.files.length) {
-                data.context.find('button')
-                    .text('Import')
-                    .prop('disabled', !!data.files.error);
-            }
-        }).on('fileuploadprogressall', function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('#progress .progress-bar').css(
-                'width',
-                progress + '%'
-            );
-        }).on('fileuploaddone', function (e, data) {
-            $.each(data.result.files, function (index, file) {
-                if (file.url) {
-                    var link = $('<a>')
-                        .attr('target', '_blank')
-                        .prop('href', file.url);
-                    $(data.context.children()[index])
-                        .wrap(link);
-                } else if (file.error) {
-                    var error = $('<span class="text-danger"/>').text(file.error);
-                    $(data.context.children()[index])
-                        .append('<br>')
-                        .append(error);
-                }
-            });
-        }).on('fileuploadfail', function (e, data) {
-            $.each(data.files, function (index) {
-                var error = $('<span class="text-danger"/>').text('File upload failed.');
-                $(data.context.children()[index])
-                    .append('<br>')
-                    .append(error);
-            });
-        }).prop('disabled', !$.support.fileInput)
-            .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    var inputType = "string";
+    var stepped = 0, rowCount = 0, errorCount = 0, firstError;
+    var start, end;
+    var firstRun = true;
+    var maxUnparseLength = 10000;   
+
+    $('#fileupload').on('change', function() {
+        $('#import_btn').prop('disabled', !$('#fileupload')[0].files.length)
     });
 
-    /*
-    if($('#edit_category option').length<=0) {
-        $.getJSON($("#base_url").val()+"api/categories/all", function(json){
-            $('#edit_category').empty();
-            //$('#category').append($('<option>').text("Select Category").attr('value', -1));
-            $.each(json, function(i, obj){
-                $('#edit_category').append($('<option>').text(obj.name).attr('value', obj.id));
-            });
+    $('#import_btn').click(function() {
+        if ($(this).prop('disabled') == "true")
+            return;
+
+        stepped = 0;
+        rowCount = 0;
+        errorCount = 0;
+        firstError = undefined;
+
+        var config = buildConfig();
+
+        // Allow only one parse at a time
+        $(this).prop('disabled', true);
+
+        if (!firstRun)
+            console.log("--------------------------------------------------");
+        else
+            firstRun = false;
+
+        if (!$('#fileupload')[0].files.length)
+        {
+            alert("Please choose at least one file to parse.");
+            return enableButton();
+        }
+        
+        $('#fileupload').parse({
+            config: config,
+            before: function(file, inputElem)
+            {
+                start = now();
+                console.log("Parsing file...", file);
+            },
+            error: function(err, file)
+            {
+                console.log("ERROR:", err, file);
+                firstError = firstError || err;
+                errorCount++;
+            },
+            complete: function()
+            {
+                end = now();
+                printStats("Done with all files");
+            }
         });
+    } );
+
+    function printStats(msg)
+    {
+        if (msg)
+            console.log(msg);
+        console.log("       Time:", (end-start || "(Unknown; your browser does not support the Performance API)"), "ms");
+        console.log("  Row count:", rowCount);
+        if (stepped)
+            console.log("    Stepped:", stepped);
+        console.log("     Errors:", errorCount);
+        if (errorCount)
+            console.log("First error:", firstError);
     }
 
-    var data = subs.row(this).data();
-    $('#edit_category').val(data.category).change();
-    $('#edit_fname').val(data.fname);
-    $('#edit_lname').val(data.lname);
-    $('#edit_email_add').val(data.email);
-    $('#edit_address').val(data.address);
-    $('#edit_contact_no').val(data.contact_no);
 
-    $('#edit_btn').prop('disabled', false);
-    */
+
+    function buildConfig()
+    {
+        return {
+            //delimiter: $('#delimiter').val(),
+            //header: $('#header').prop('checked'),
+            dynamicTyping: true,
+            //skipEmptyLines: $('#skipEmptyLines').prop('checked'),
+            //preview: parseInt($('#preview').val() || 0),
+            step: true,
+            //encoding: $('#encoding').val(),
+            worker: true,
+            //comments: $('#comments').val(),
+            complete: completeFn,
+            error: errorFn,
+            //download: inputType == "remote"
+        };
+    }
+
+    function stepFn(results, parser)
+    {
+        stepped++;
+        if (results)
+        {
+            if (results.data)
+                rowCount += results.data.length;
+            if (results.errors)
+            {
+                errorCount += results.errors.length;
+                firstError = firstError || results.errors[0];
+            }
+        }
+    }
+
+    function completeFn(results)
+    {
+        end = now();
+
+        if (results && results.errors)
+        {
+            if (results.errors)
+            {
+                errorCount = results.errors.length;
+                firstError = results.errors[0];
+            }
+            if (results.data && results.data.length > 0)
+                rowCount = results.data.length;
+        }
+
+        printStats("Parse complete");
+        console.log("    Results:", results);
+
+        // icky hack
+        setTimeout(enableButton, 100);
+    }
+
+    function errorFn(err, file)
+    {
+        end = now();
+        console.log("ERROR:", err, file);
+        enableButton();
+    }
+
+    function enableButton()
+    {
+        $('#import_btn').prop('disabled', false);
+    }
+
+    function now()
+    {
+        return typeof window.performance !== 'undefined'
+                ? window.performance.now()
+                : 0;
+    }
 });

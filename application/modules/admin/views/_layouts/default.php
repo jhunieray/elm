@@ -1,7 +1,6 @@
-<input type="hidden" id="base_url" name="base_url" value="<?= base_url() ?>">
-<input type="hidden" id="site_url" name="site_url" value="<?= site_url() ?>">
 <div class="wrapper">
-
+	<input type="hidden" id="base_url" name="base_url" value="<?= base_url() ?>">
+	<input type="hidden" id="site_url" name="site_url" value="<?= site_url() ?>">
 	<?php $this->load->view('_partials/navbar'); ?>
 
 	<?php // Left side column. contains the logo and sidebar ?>
