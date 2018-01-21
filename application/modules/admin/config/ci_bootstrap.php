@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | -------------------------------------------------------------------------
 | CI Bootstrap 3 Configuration
 | -------------------------------------------------------------------------
-| This file lets you define default values to be passed into views 
-| when calling MY_Controller's render() function. 
-| 
+| This file lets you define default values to be passed into views
+| when calling MY_Controller's render() function.
+|
 | See example and detailed explanation from:
 | 	/application/config/ci_bootstrap_example.php
 */
@@ -29,7 +29,7 @@ $config['ci_bootstrap'] = array(
 		'description'	=> 'Email List Management',
 		'keywords'		=> 'email, list, management'
 	),
-	
+
 	// Default scripts to embed at page head or end
 	'scripts' => array(
 		'head'	=> array(
@@ -60,7 +60,7 @@ $config['ci_bootstrap'] = array(
 
 	// Default CSS class for <body> tag
 	'body_class' => '',
-	
+
 	// Multilingual settings
 	'languages' => array(
 	),
@@ -76,6 +76,11 @@ $config['ci_bootstrap'] = array(
 			'name'		=> 'Subscribers',
 			'url'		=> 'subscribers',
 			'icon'		=> 'fa fa-users',
+		),
+		'categories' => array(
+			'name'		=> 'Categories',
+			'url'		=> 'categories',
+			'icon'		=> 'fa fa-bar-chart',
 		),
 		/*
 		'user' => array(
