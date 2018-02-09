@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 class Categories_model extends MY_Model {
 
@@ -13,24 +13,15 @@ class Categories_model extends MY_Model {
 		return $query->result();
 	}
 
-	public function add_categories($categories)
+	public function add_category($category)
 	{
-		$this->db->insert('categories', $categories);
+		$this->db->insert('categories', $category);
 		return $this->db->insert_id();
 	}
 
-	public function remove_categories($categories_id)
+	public function remove_category($category_id)
 	{
-		$this->db->where('id', $categories_id);
+		$this->db->where('id', $category_id);
 		return $this->db->delete('categories');
-	}
-
-	public function edit_categories($data)
-	{
-		$this->db->trans_start();
-		$this->db->where('id', $data['id']);
-		$this->db->update('categories', $data);
-		$this->db->trans_complete();
-		return $this->db->trans_status();
 	}
 }

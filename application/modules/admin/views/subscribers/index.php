@@ -3,10 +3,10 @@
 		<div class="box box-info">
 			<div class="box-header with-border">
 				<div class="box-title hidden-xs hidden-sm">
-					<i class="fa fa-users"></i> Subscribers
+					<i class="fa fa-envelope"></i> Email Lists
 				</div>
 				<div class="box-title hidden-md hidden-lg text-center">
-					<i class="fa fa-users"></i>
+					<i class="fa fa-envelope"></i>
 				</div>
 				<div class="box-tools pull-right hidden-xs hidden-sm">
 					<button class="btn btn-sm btn-success btn-flat menu_btn" type="button" data-toggle="collapse" data-target="#panel_create_new" aria-expanded="false" aria-controls="panel_create_new"><i class="fa fa-plus"></i> Add New</button>
@@ -33,43 +33,65 @@
 				  	<div class="box box-success">
 				  		<div class="box-body">
 				  			<div class="row">
-				  				<div class="col-md-2">
+				  				<div class="col-md-3">
 				  					<div class="form-group">
 				  						<label class="form-label">Category</label>
-				  						<select class="form-control" name="category" id="category" autofocus="">
-				  						</select>
+				  						<div class="input-group">
+					  						<select class="form-control" name="category" id="category" autofocus="">
+					  						</select>
+					  						<span class="input-group-btn">
+												<button id="add_category" type="button" class="btn btn-flat btn-info" data-toggle="modal" data-target="#modal_category">
+								                    <i class="fa fa-plus"></i>
+								                </button>
+								            </span>
+					  					</div>
 				  						<span class="text-danger"></span>
 				  					</div>
 				  				</div>
-				  				<div class="col-md-2">
+				  				<div class="col-md-3">
+				  					<div class="form-group">
+				  						<label class="form-label">List</label>
+				  						<div class="input-group">
+					  						<select class="form-control" name="list" id="list" autofocus="">
+					  						</select>
+					  						<span class="input-group-btn">
+												<button id="add_list" type="button" class="btn btn-flat btn-info" data-toggle="modal" data-target="#modal_list">
+								                    <i class="fa fa-plus"></i>
+								                </button>
+								            </span>
+					  					</div>
+				  						<span class="text-danger"></span>
+				  					</div>
+				  				</div>
+				  				<div class="col-md-3">
 				  					<div class="form-group">
 				  						<label class="form-label">First Name</label>
 				  						<input type="text" id="fname" name="fname" class="form-control" required />
 				  						<span class="text-danger"></span>
 				  					</div>
 				  				</div>
-				  				<div class="col-md-2">
+				  				<div class="col-md-3">
 				  					<div class="form-group">
 				  						<label class="form-label">Last Name</label>
 				  						<input type="text" id="lname" name="lname" class="form-control" required />
 				  						<span class="text-danger"></span>
 				  					</div>
 				  				</div>
-				  				<div class="col-md-2">
+				  				<div class="col-md-3">
 				  					<div class="form-group">
 				  						<label class="form-label">Email Address</label>
 				  						<input type="email" id="email_add" name="email_add" class="form-control" required />
 				  						<span class="text-danger"></span>
 				  					</div>
 				  				</div>
-				  				<div class="col-md-2">
+				  				<div class="col-md-3">
 				  					<div class="form-group">
 				  						<label class="form-label">Contact No</label>
 				  						<input type="text" id="contact_no" name="contact_no" class="form-control" required />
 				  						<span class="text-danger"></span>
 				  					</div>
 				  				</div>
-				  				<div class="col-md-2">
+				  				<div class="col-md-6">
 				  					<div class="form-group">
 				  						<label class="form-label">Address</label>
 				  						<input type="text" id="address" name="address" class="form-control" required />
@@ -88,79 +110,66 @@
 				  	</div>
 				  	<?= form_close() ?>
 				</div>
-				<div class="collapse custom_panel" id="panel_edit">
-					<?= form_open('api/subscribers/edit', array('id' => 'form_edit_subscriber')) ?>
-				  	<div class="box box-warning">
-				  		<div class="box-body">
-				  			<div class="row">
-				  				<div class="col-md-2">
-				  					<div class="form-group">
-				  						<label class="form-label">Category</label>
-				  						<select class="form-control" name="category" id="edit_category" autofocus="">
-				  						</select>
-				  						<span class="text-danger"></span>
-				  					</div>
-				  				</div>
-				  				<div class="col-md-2">
-				  					<div class="form-group">
-				  						<label class="form-label">First Name</label>
-				  						<input type="text" id="edit_fname" name="fname" class="form-control" required />
-				  						<span class="text-danger"></span>
-				  					</div>
-				  				</div>
-				  				<div class="col-md-2">
-				  					<div class="form-group">
-				  						<label class="form-label">Last Name</label>
-				  						<input type="text" id="edit_lname" name="lname" class="form-control" required />
-				  						<span class="text-danger"></span>
-				  					</div>
-				  				</div>
-				  				<div class="col-md-2">
-				  					<div class="form-group">
-				  						<label class="form-label">Email Address</label>
-				  						<input type="email" id="edit_email_add" name="email_add" class="form-control" required />
-				  						<span class="text-danger"></span>
-				  					</div>
-				  				</div>
-				  				<div class="col-md-2">
-				  					<div class="form-group">
-				  						<label class="form-label">Contact No</label>
-				  						<input type="text" id="edit_contact_no" name="contact_no" class="form-control" required />
-				  						<span class="text-danger"></span>
-				  					</div>
-				  				</div>
-				  				<div class="col-md-2">
-				  					<div class="form-group">
-				  						<label class="form-label">Address</label>
-				  						<input type="text" id="edit_address" name="address" class="form-control" required />
-				  						<span class="text-danger"></span>
-				  					</div>
-				  				</div>
-				  			</div>
-				  			<div class="row">
-				  				<div class="col-md-12 text-right">
-				  					<input type="hidden" id="id" name="id" />
-				  					<p id="edit_msg" class="pull-left"></p>
-				  					<button type="button" class="btn btn-flat btn-default" data-toggle="collapse" data-target="#panel_edit" aria-expanded="false" aria-controls="panel_edit">Close</button>
-				  					<button id="save_subscriber_edit" type="submit" class="btn btn-flat btn-warning">Save</button>
-				  				</div>
-				  			</div>
-				  		</div>
-				  	</div>
-				  	<?= form_close() ?>
-				</div>
 				<div class="collapse custom_panel" id="panel_import">
 				  	<div class="row">
 				  		<div class="col-md-6">
 						  	<div class="box box-default">
 						  		<div class="box-body">
 						  			<div class="row">
-						  				<div class="col-md-12">
-						  					<div class="form-group">
-													<input id="fileupload" type="file" name="files[]" multiple accept=".csv,text/plain">
-													<button class="btn btn-warning btn-sm" id="import_btn" disabled="">Import</button>
-													<span class="text-danger" id="file_error"></span>
+						  				<div class="col-md-4">
+						  					<label>Category:</label>
+						  				</div>
+						  				<div class="col-md-8">
+						  					<div class="input-group">
+						  						<select class="form-control" name="category" id="category" autofocus="">
+						  						</select>
+						  						<span class="input-group-btn">
+													<button id="add_category" type="button" class="btn btn-flat btn-info" data-toggle="modal" data-target="#modal_category">
+									                    <i class="fa fa-plus"></i>
+									                </button>
+									            </span>
 						  					</div>
+					  						<span class="text-danger"></span>
+						  				</div>
+						  			</div>
+						  			<hr/>
+						  			<div class="row">
+						  				<div class="col-md-4">
+						  					<label>List:</label>
+						  				</div>
+						  				<div class="col-md-8">
+						  					<div class="input-group">
+						  						<select class="form-control" name="list" id="list" autofocus="">
+						  						</select>
+						  						<span class="input-group-btn">
+													<button id="add_list" type="button" class="btn btn-flat btn-info" data-toggle="modal" data-target="#modal_list">
+									                    <i class="fa fa-plus"></i>
+									                </button>
+									            </span>
+						  					</div>
+					  						<span class="text-danger"></span>
+						  				</div>
+						  			</div>
+						  			<hr/>
+						  			<div class="row">
+						  				<div class="col-md-4">
+						  					<label>Select File:</label>
+						  				</div>
+						  				<div class="col-md-8">
+						  					<div class="form-group">
+												<input id="fileupload" type="file" name="files[]" multiple accept=".csv,text/plain">
+												<span class="text-danger" id="file_error"></span>
+						  					</div>
+						  				</div>
+						  			</div>
+						  			<hr/>
+						  			<div class="row">
+						  				<div class="col-md-7 text-left">
+											<p class="text-danger" id="upload_msg"></p>
+						  				</div>
+						  				<div class="col-md-5 text-right">
+											<button class="btn btn-primary btn-flat btn-sm" id="import_btn" disabled=""><i class="fa fa-upload fa-fw"></i> Import</button>
+											<button class="btn btn-default btn-flat btn-sm" id="import_close" data-toggle="collapse" data-target="#panel_import" aria-expanded="false" aria-controls="panel_import"><i class="fa fa-times fa-fw"></i> Close</button>
 						  				</div>
 						  			</div>
 						  		</div>
@@ -174,16 +183,16 @@
 						  					<div class="form-group">
 											    <div class="panel panel-default">
 											        <div class="panel-heading">
-											            <h3 class="panel-title">Demo Notes</h3>
+											            <h3 class="panel-title">Notes</h3>
 											        </div>
 											        <div class="panel-body">
 											            <ul>
-											                <li>The maximum file size for uploads in this demo is <strong>999 KB</strong> (default file size is unlimited).</li>
-											                <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed in this demo (by default there is no file type restriction).</li>
-											                <li>Uploaded files will be deleted automatically after <strong>5 minutes or less</strong> (demo files are stored in memory).</li>
-											                <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage (see <a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Browser-support">Browser support</a>).</li>
-											                <li>Please refer to the <a href="https://github.com/blueimp/jQuery-File-Upload">project website</a> and <a href="https://github.com/blueimp/jQuery-File-Upload/wiki">documentation</a> for more information.</li>
-											                <li>Built with the <a href="http://getbootstrap.com/">Bootstrap</a> CSS framework and Icons from <a href="http://glyphicons.com/">Glyphicons</a>.</li>
+											                <li>The maximum file size for uploads in this module is <strong>25 MB</strong>.</li>
+											                <li>Only these files (<strong>CSV, TXT</strong>) are allowed to be imported.</li>
+											                <li>Files are not stored in server. It only <strong>reads data</strong> from the file you selected.</li>
+											                <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage (see <a href="#">Browser support</a>).</li>
+											                <li>Emails imported are automatically scrubbed in the suppression list. Emails found are ignored automatically. So does malformed formats.</li>
+											                <li>Built with the <a href="http://papaparse.com/">Papa Parse 4</a>. The powerful, in-browser CSV parser for big boys and girls.</li>
 											            </ul>
 											        </div>
 											    </div>
@@ -205,7 +214,6 @@
 					<thead>
 						<tr>
 							<th style="white-space: nowrap;">ID</th>
-							<th style="white-space: nowrap;">Category</th>
 							<th style="white-space: nowrap;">Email</th>
 							<th style="white-space: nowrap;">First Name</th>
 							<th style="white-space: nowrap;">Last Name</th>
@@ -223,3 +231,53 @@
 		</div>
 	</div>	
 </div>
+<div class="modal fade" id="modal_category">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <?php echo form_open('api/categories/add', array('id' => 'form_category')); ?>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><i class="fa fa-plus"></i> Add Category</h4>
+      </div>
+      <div class="modal-body">
+        <input type="text" name="input_category" class="form-control" id="input_category" placeholder="Create Category" required autofocus />
+		<span class="text-danger" id="error_category"></span>
+      </div>
+      <div class="modal-footer text-right">
+      	<p class="pull-left text-success" id="msg_category"></p>
+        <button type="button" id="close_category" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" id="save_category" class="btn btn-primary">Save</button>
+      </div>
+      <?php echo form_close(); ?>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<div class="modal fade" id="modal_list">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <?php echo form_open('api/lists/add', array('id' => 'form_list')); ?>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><i class="fa fa-plus"></i> Add List</h4>
+      </div>
+      <div class="modal-body">
+        <input type="text" name="input_list" class="form-control" id="input_list" placeholder="Create List" required autofocus />
+		<span class="text-danger" id="error_list"></span>
+      </div>
+      <div class="modal-footer text-right">
+      	<p class="pull-left text-success" id="msg_list"></p>
+        <button type="button" id="close_list" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" id="save_list" class="btn btn-primary">Save</button>
+      </div>
+      <?php echo form_close(); ?>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

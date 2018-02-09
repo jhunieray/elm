@@ -8,11 +8,13 @@ class Subscribers extends MY_Controller {
 		parent::__construct();
 
 		$this->load->model('api/Subscribers_model');
+		$this->load->model('api/Lists_model');
+		$this->load->model('api/Suppression_model');
 	}
 
 	public function all()
 	{
-		$all_subscribers = $this->Subscribers_model->get_all_subscribers_table();
+		$all_subscribers = $this->Subscribers_model->get_all_subscribers();
 		$subscribers['data'] = $all_subscribers;
 
 		// output JSON
@@ -25,34 +27,75 @@ class Subscribers extends MY_Controller {
 		$this->load->library('form_validation');
 
 		$this->form_validation->set_rules('category', 'Category', 'required');
-		$this->form_validation->set_rules('fname', 'First Name', 'required|alpha');
-		$this->form_validation->set_rules('lname', 'Last Name', 'required|alpha');
+		$this->form_validation->set_rules('fname', 'First Name', 'required');
+		$this->form_validation->set_rules('lname', 'Last Name', 'required');
 		$this->form_validation->set_rules('email_add', 'Email Address', 'required|valid_email');
 		$this->form_validation->set_rules('contact_no', 'Contact No', 'required|numeric');
 		$this->form_validation->set_rules('address', 'Address', 'required');
 		if($this->form_validation->run() !== FALSE)
 		{
-			$subscriber = array(
-				'category' => $this->input->post('category'),
-				'fname' => $this->input->post('fname'),
-				'lname' => $this->input->post('lname'),
-				'email' => $this->input->post('email_add'),
-				'contact_no' => $this->input->post('contact_no'),
-				'address' => $this->input->post('address'),
-				'date_added' => date('Y-m-d H:i:s'),
-				'date_updated' => date('Y-m-d H:i:s'),
-				'status' => 'ACTIVE'
-			);
-			$subscriber_id = $this->Subscribers_model->add_subscriber($subscriber);
-
-			if($subscriber_id>0) 
+			if(!$this->filter_suppression($this->input->post('email_add')))
 			{
-				header('Content-Type: application/json');
-				print json_encode($subscriber_id);
+				$subscriber = array(
+					'fname' => $this->input->post('fname'),
+					'lname' => $this->input->post('lname'),
+					'email' => $this->input->post('email_add'),
+					'contact_no' => $this->input->post('contact_no'),
+					'address' => $this->input->post('address'),
+					'date_added' => date('Y-m-d H:i:s'),
+					'date_updated' => date('Y-m-d H:i:s'),
+					'status' => 'ACTIVE'
+				);
+				$subscriber_id = $this->Subscribers_model->add_subscriber($subscriber);
+
+				if($subscriber_id>0) 
+				{
+					$subscriber_category = array(
+						'subscriber' => $subscriber_id,
+						'category' => $this->input->post('category')
+					);
+					$subscriber_category_id = $this->Subscribers_model->add_subscriber_category($subscriber_category);
+
+					if($subscriber_category_id>0)
+					{
+						$subscriber_list = array(
+							'subscriber' => $subscriber_id,
+							'list' => $this->input->post('list')
+						);
+						$subscriber_list_id = $this->Lists_model->add_list_subscriber($subscriber_list);
+
+						if($subscriber_list_id>0)
+						{
+							header('Content-Type: application/json');
+							print json_encode($subscriber_id);
+						}
+						else
+						{
+							$error['error'] = 'There was an error saving your data.';
+							header('HTTP/1.1 500 Internal Server Error');
+			        		header('Content-Type: application/json; charset=UTF-8');
+							die( json_encode($error) );
+						}
+					}
+					else
+					{
+						$error['error'] = 'There was an error saving your data.';
+						header('HTTP/1.1 500 Internal Server Error');
+		        		header('Content-Type: application/json; charset=UTF-8');
+						die( json_encode($error) );
+					}
+				}
+				else
+				{
+					$error['error'] = 'There was an error saving your data.';
+					header('HTTP/1.1 500 Internal Server Error');
+	        		header('Content-Type: application/json; charset=UTF-8');
+					die( json_encode($error) );
+				}
 			}
 			else
 			{
-				$error['error'] = 'There was an error saving your data.';
+				$error['error'] = 'Email is found in suppressed list.';
 				header('HTTP/1.1 500 Internal Server Error');
         		header('Content-Type: application/json; charset=UTF-8');
 				die( json_encode($error) );
@@ -82,5 +125,10 @@ class Subscribers extends MY_Controller {
 
 		header('Content-Type: application/json');
 		print json_encode(array('status' => 'SUCCESS'));
+	}
+
+	private function filter_suppression($email)
+	{
+		return $this->Suppression_model->get_suppression($email);
 	}
 }

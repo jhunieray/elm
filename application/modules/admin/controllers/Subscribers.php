@@ -11,7 +11,7 @@ class Subscribers extends Admin_Controller {
 	// Subscribers
 	public function index()
 	{
-		$this->mPageTitle = 'Subscribers';
+		$this->mPageTitle = 'Email List';
 		$this->render('subscribers/index');
 	}
 }

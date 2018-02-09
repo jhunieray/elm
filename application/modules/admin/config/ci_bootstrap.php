@@ -73,14 +73,9 @@ $config['ci_bootstrap'] = array(
 			'icon'		=> 'fa fa-home',
 		),
 		'subscribers' => array(
-			'name'		=> 'Subscribers',
+			'name'		=> 'Email Lists',
 			'url'		=> 'subscribers',
 			'icon'		=> 'fa fa-users',
-		),
-		'categories' => array(
-			'name'		=> 'Categories',
-			'url'		=> 'categories',
-			'icon'		=> 'fa fa-bar-chart',
 		),
 		/*
 		'user' => array(
