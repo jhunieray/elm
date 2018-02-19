@@ -220,6 +220,42 @@ $(document).ready(function() {
         });
     });
 
+    $('#form_export').submit(function(e) {
+        e.preventDefault();
+
+        var serialize = $(this).serialize();
+        
+        $('#export_subscriber').prop('disabled', true);
+        $('#export_subscriber').html('Loading...');
+        $('#form_export').prop('disabled', true);
+        // Use Ajax to submit form data
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: serialize,
+            success: function(result) {
+                // ... Process the result ...
+                console.log(result);
+                $('#export_subscriber').prop('disabled', false);
+                $('#export_subscriber').html('Export');
+                $('#form_export').prop('disabled', false);
+                setTimeout(
+                    function() {
+                        $("#refresh").click();
+                    }, 1000
+                );
+                
+            },
+            error: function(error) {
+                $('#export_msg').text('There was an error processing your request.\n Errors found: '+error);
+                $('#export_subscriber').prop('disabled', false);
+                $('#export_subscriber').html('Export');
+                $('#panel_export').prop('disabled', false);
+            }
+        });
+    });
+
+
     $(".menu_btn").click( function(e) {
         jQuery('.collapse').collapse('hide');
 
@@ -256,6 +292,25 @@ $(document).ready(function() {
                     $('#panel_import select[id="list"]').empty();
                     $.each(json, function(i, obj){
                         $('#panel_import select[id="list"]').append($('<option>').text(obj.name).attr('value', obj.id));
+                    });
+                });
+            }
+        } else if("#panel_export" == $(this).data('target')) {
+            active_panel = "#panel_export";
+            $('#panel_export .select2').select2();
+            if($('#panel_export select[id="category"] option').length<=0) {
+                $.getJSON($("#base_url").val()+"api/categories/all", function(json){
+                    $('#panel_export select[id="category"]').empty();
+                    $.each(json, function(i, obj){
+                        $('#panel_export select[id="category"]').append($('<option>').text(obj.name).attr('value', obj.id));
+                    });
+                });
+            }
+            if($('#panel_export select[id="list"] option').length<=0) {
+                $.getJSON($("#base_url").val()+"api/lists/all", function(json){
+                    $('#panel_export select[id="list"]').empty();
+                    $.each(json, function(i, obj){
+                        $('#panel_export select[id="list"]').append($('<option>').text(obj.name).attr('value', obj.id));
                     });
                 });
             }
@@ -414,6 +469,7 @@ $(document).ready(function() {
                         console.log(res);
                         txt = item[2]+' uploaded successfully.\n';
                         console.log(txt);
+                        $("#refresh").click();
                         imported++;
                     },
                     error: function(data) {
@@ -429,7 +485,6 @@ $(document).ready(function() {
                             response.push(item);
                             setTimeout(
                                 function() {
-                                    
                                     $('#panel_import select[id="category"] option:first').prop('selected', true);
                                     $('#panel_import select[id="list"] option:first').prop('selected', true);
                                     $('#fileupload').val('');

@@ -201,11 +201,107 @@
 						  			</div>
 						  		</div>
 						  	</div>
-						</idv>
+						</div>
 					</div>
 				</div>
 				<div class="collapse custom_panel" id="panel_export">
-				  	<h1>EXPORT</h1>
+				  	<div class="row">
+				  		<div class="col-md-8 col-md-offset-2">
+						  	<?= form_open('api/export', array('id' => 'form_export', 'class' => 'form-horizontal')) ?>
+						  	<div class="box box-info">
+						  		<div class="box-body">
+						  			<div class="row">
+						  				<div class="col-md-12">
+						  					<div class="form-group">
+						  						<label class="form-label col-md-5">
+						  							EXPORT ALL SUBSCRIBERS WHERE 
+						  						</label>
+						  						<div class="col-md-2">
+						  							<select class="form-control" name="category_operator">
+						  								<option value="OR">ANY</option>
+						  								<option value="AND">ALL</option>
+						  							</select>
+						  						</div>
+						  						<label class="form-label col-md-3">
+						  							OF THESE CATEGORIES  
+						  						</label>
+						  						<div class="col-md-2">
+								  					<select class="form-control select2" id="category" name="category[]" multiple="multiple" data-placeholder="Select Category" style="width: 100%;"></select>
+							  						<span class="text-danger"></span>
+							  					</div>
+						  					</div>
+						  				</div>
+						  			</div>
+						  			<div class="row">
+						  				<div class="col-md-12">
+						  					<div class="form-group">
+						  						<label class="form-label col-md-4">Operator Match:</label>
+						  						<div class="col-md-8">
+								  					<label class="radio-inline">
+								  						<input type="radio" value="OR" checked="" name="operator_match" /> OR
+								  					</label>
+								  					<label class="radio-inline">
+								  						<input type="radio" value="AND" name="operator_match" /> AND
+								  					</label>
+							  						<span class="text-danger"></span>
+							  					</div>
+						  					</div>
+						  				</div>
+						  			</div>
+						  			<div class="row">
+						  				<div class="col-md-12">
+						  					<div class="form-group">
+						  						<label class="form-label col-md-4">Lists:</label>
+						  						<div class="col-md-8">
+								  					<select class="form-control select2" name="list[]" id="list" multiple="multiple" data-placeholder="Select List" style="width: 100%;"></select>
+							  						<span class="text-danger"></span>
+							  					</div>
+						  					</div>
+						  				</div>
+						  			</div>
+						  			<div class="row">
+						  				<div class="col-md-12">
+						  					<div class="form-group">
+						  						<label class="form-label col-md-4">File Format:</label>
+						  						<div class="col-md-8">
+								  					<label class="radio-inline">
+								  						<input type="radio" value="csv" checked="" name="file_type" /> CSV
+								  					</label>
+								  					<label class="radio-inline">
+								  						<input type="radio" value="txt" name="file_type" /> TXT
+								  					</label>
+							  						<span class="text-danger"></span>
+							  					</div>
+						  					</div>
+						  				</div>
+						  			</div>
+						  			<div class="row">
+						  				<div class="col-md-12">
+						  					<div class="form-group">
+						  						<label class="form-label col-md-4">Archived (ZIP)?:</label>
+						  						<div class="col-md-8">
+								  					<div class="checkbox">
+								  						<label>
+									  						<input type="checkbox" value="1" name="compressed_file" />
+									  					</label>
+								  					</div>
+							  						<span class="text-danger"></span>
+							  					</div>
+						  					</div>
+						  				</div>
+						  			</div>
+						  			<div class="row">
+						  				<div class="col-md-12 text-right">
+						  					<p id="export_msg" class="pull-left"></p>
+						  					<button type="button" class="btn btn-flat btn-default" data-toggle="collapse" data-target="#panel_export" aria-expanded="false" aria-controls="panel_export">Close</button>
+						  					<button id="export_subscriber" type="submit" class="btn btn-flat btn-info">Export</button>
+						  				</div>
+						  			</div>
+						  		</div>
+						  	</div>
+						  	<?= form_close() ?>
+						</div>
+					</div>
 				</div>
 				<div class="collapse custom_panel" id="panel_filters">
 				  	<h1>FILTERS</h1>
