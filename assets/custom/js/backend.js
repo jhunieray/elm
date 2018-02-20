@@ -236,6 +236,9 @@ $(document).ready(function() {
             success: function(result) {
                 // ... Process the result ...
                 console.log(result);
+
+                window.open(result);
+
                 $('#export_subscriber').prop('disabled', false);
                 $('#export_subscriber').html('Export');
                 $('#form_export').prop('disabled', false);
@@ -247,7 +250,7 @@ $(document).ready(function() {
                 
             },
             error: function(error) {
-                $('#export_msg').text('There was an error processing your request.\n Errors found: '+error);
+                $('#export_msg').text('There was an error processing your request.\n Errors found: '+error.error);
                 $('#export_subscriber').prop('disabled', false);
                 $('#export_subscriber').html('Export');
                 $('#panel_export').prop('disabled', false);

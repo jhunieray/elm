@@ -213,22 +213,19 @@
 						  			<div class="row">
 						  				<div class="col-md-12">
 						  					<div class="form-group">
-						  						<label class="form-label col-md-5">
-						  							EXPORT ALL SUBSCRIBERS WHERE 
+						  						<label class="form-label col-md-4">
+						  							Categories: 
 						  						</label>
+						  						<div class="col-md-6">
+								  					<select class="form-control select2" id="category" name="category[]" multiple="multiple" data-placeholder="Select Category" style="width: 100%;"></select>
+							  						<span class="text-danger"></span>
+							  					</div>
 						  						<div class="col-md-2">
 						  							<select class="form-control" name="category_operator">
 						  								<option value="OR">ANY</option>
 						  								<option value="AND">ALL</option>
 						  							</select>
 						  						</div>
-						  						<label class="form-label col-md-3">
-						  							OF THESE CATEGORIES  
-						  						</label>
-						  						<div class="col-md-2">
-								  					<select class="form-control select2" id="category" name="category[]" multiple="multiple" data-placeholder="Select Category" style="width: 100%;"></select>
-							  						<span class="text-danger"></span>
-							  					</div>
 						  					</div>
 						  				</div>
 						  			</div>
@@ -252,10 +249,16 @@
 						  				<div class="col-md-12">
 						  					<div class="form-group">
 						  						<label class="form-label col-md-4">Lists:</label>
-						  						<div class="col-md-8">
+						  						<div class="col-md-6">
 								  					<select class="form-control select2" name="list[]" id="list" multiple="multiple" data-placeholder="Select List" style="width: 100%;"></select>
 							  						<span class="text-danger"></span>
 							  					</div>
+							  					<div class="col-md-2">
+						  							<select class="form-control" name="list_operator">
+						  								<option value="OR">ANY</option>
+						  								<option value="AND">ALL</option>
+						  							</select>
+						  						</div>
 						  					</div>
 						  				</div>
 						  			</div>
@@ -282,7 +285,7 @@
 						  						<div class="col-md-8">
 								  					<div class="checkbox">
 								  						<label>
-									  						<input type="checkbox" value="1" name="compressed_file" />
+									  						<input type="checkbox" value="1" name="compressed" />
 									  					</label>
 								  					</div>
 							  						<span class="text-danger"></span>

@@ -16,6 +16,41 @@ class Subscribers_model extends MY_Model {
 		return $query->result();
 	}
 
+	public function export_subscribers($data)
+	{
+		$this->load->dbutil();
+		
+		$this->db
+				->select('`subscribers`.`id` as `id`, `fname`, `lname`,  `subscribers`.`email` as `email`, `contact_no`, `address`')
+				->join('subscriber_category', '`subscribers`.`id` = `subscriber_category`.`subscriber`', 'left')
+				->join('subscriber_list', '`subscribers`.`id` = `subscriber_list`.`subscriber`', 'left')
+				->join('suppression', '`subscribers`.`email` = `suppression`.`email`', 'left');
+		
+		$this->db->group_start();
+		foreach ($data['categories'] as $key => $category) {
+			# code...
+			$data['category_operator'] == 'OR' ? $this->db->or_where('category', $category) : $this->db->where('category', $category);
+		}
+		$this->db->group_end();
+
+		$data['operator_match'] == 'OR' ? $this->db->or_group_start() : $this->db->group_start();
+		foreach ($data['list'] as $key => $list) {
+			# code...
+			$data['list_operator'] == 'OR' ? $this->db->or_where('list', $list) : $this->db->where('list', $list);
+		}
+		$this->db->group_end();
+
+		$this->db->where('`suppression`.`email`', NULL);
+
+		$query = $this->db->get('subscribers');
+
+		$delimiter = ",";
+		$newline = "\r\n";
+		$enclosure = '"';
+
+		return $this->dbutil->csv_from_result($query, $delimiter, $newline, $enclosure);
+	}
+
 	public function get_all_subscribers_unfiltered()
 	{
 		$query = $this->db->get('subscribers');
