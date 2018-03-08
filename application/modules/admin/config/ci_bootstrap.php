@@ -79,6 +79,11 @@ $config['ci_bootstrap'] = array(
 			'url'		=> 'subscribers',
 			'icon'		=> 'fa fa-users',
 		),
+		'segments' => array(
+			'name'		=> 'List Segments',
+			'url'		=> 'segments',
+			'icon'		=> 'fa fa-list',
+		),
 		/*
 		'user' => array(
 			'name'		=> 'Users',
@@ -123,6 +128,7 @@ $config['ci_bootstrap'] = array(
 	'page_auth' => array(
 		// Start Custom Modules
 		'subscribers'				=> array('webmaster', 'admin'),
+		'segments'					=> array('webmaster', 'admin'),
 		// End Custom Modules
 
 		'panel'						=> array('webmaster'),

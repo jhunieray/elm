@@ -15,6 +15,9 @@ class Subscribers extends MY_Controller {
 	public function all()
 	{
 		$all_subscribers = $this->Subscribers_model->get_all_subscribers();
+		$subscribers['draw'] = 1;
+		$subscribers['recordsTotal'] = count($all_subscribers);
+		$subscribers['recordsFiltered'] = count($all_subscribers);
 		$subscribers['data'] = $all_subscribers;
 
 		// output JSON
@@ -125,6 +128,68 @@ class Subscribers extends MY_Controller {
 
 		header('Content-Type: application/json');
 		print json_encode(array('status' => 'SUCCESS'));
+	}
+
+	public function search()
+	{
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('category[]', 'Categories', 'required');
+		$this->form_validation->set_rules('list[]', 'Lists', 'required');
+		$this->form_validation->set_rules('email', 'Email Address', 'required');
+		if($this->form_validation->run() !== FALSE)
+		{
+			if(!$this->filter_suppression($this->input->post('email')))
+			{
+				$categories = $this->input->post('category');
+				$category_operator = $this->input->post('category_operator');
+				$operator_match = $this->input->post('operator_match');
+				$list = $this->input->post('list');
+				$list_operator = $this->input->post('list_operator');
+				$email = $this->input->post('email');
+				$email_operator = $this->input->post('email_operator');
+				$status = $this->input->post('status_operator');
+
+				$subscribers = $this->Subscribers_model->search_subscribers(
+					array(
+						'categories' 			=> $categories,
+						'category_operator' 	=> $category_operator,
+						'operator_match'		=> $operator_match,
+						'list'					=> $list,
+						'list_operator'			=> $list_operator,
+						'email'					=> $email,
+						'email_operator'		=> $email_operator,
+						'status_operator'		=> $status
+					)
+				);
+
+				if ( ! $subscribers)
+				{
+				    $error['error'] = 'Please check the ff errors: Unable to retrieve email list.';
+			 		header('HTTP/1.1 500 Internal Server Error');
+		        	header('Content-Type: application/json; charset=UTF-8');
+					die( json_encode($error) );
+				}
+				else
+				{
+					echo json_encode($subscribers);
+				}
+			}
+			else
+			{
+				$error['error'] = 'Email is found in suppressed list.';
+				header('HTTP/1.1 500 Internal Server Error');
+        		header('Content-Type: application/json; charset=UTF-8');
+				die( json_encode($error) );
+			}
+ 		} 
+ 		else 
+ 		{
+	 		$error['error'] = 'Please check the ff errors: '.strip_tags(validation_errors());
+	 		header('HTTP/1.1 500 Internal Server Error');
+        	header('Content-Type: application/json; charset=UTF-8');
+			die( json_encode($error) );
+		}
 	}
 
 	private function filter_suppression($email)

@@ -21,6 +21,7 @@ $(document).ready(function() {
 	var subs = $("#subscribers").DataTable( {
 		select:       true,
         "processing": true,
+        "serverSide": true,
         "ajax": $("#base_url").val()+"api/subscribers/all",
         "columns": [
             { "data": "id" },
@@ -258,6 +259,22 @@ $(document).ready(function() {
         });
     });
 
+    $('#form_filters').submit(function(e) {
+        e.preventDefault();
+
+        var serialize = $(this).serialize();
+        
+        $('#filter_subscriber').prop('disabled', true);
+        $('#filter_subscriber').html('Loading...');
+        $('#form_filters').prop('disabled', true);
+
+        //subs.ajax.url( $(this).attr('action') ).load();
+
+        $('#filter_subscriber').prop('disabled', false);
+        $('#filter_subscriber').html('Apply');
+        $('#form_filters').prop('disabled', false);               
+    });
+
 
     $(".menu_btn").click( function(e) {
         jQuery('.collapse').collapse('hide');
@@ -314,6 +331,25 @@ $(document).ready(function() {
                     $('#panel_export select[id="list"]').empty();
                     $.each(json, function(i, obj){
                         $('#panel_export select[id="list"]').append($('<option>').text(obj.name).attr('value', obj.id));
+                    });
+                });
+            }
+        } else if("#panel_filters" == $(this).data('target')) {
+            active_panel = "#panel_filters";
+            $('#panel_filters .select2').select2();
+            if($('#panel_filters select[id="category"] option').length<=0) {
+                $.getJSON($("#base_url").val()+"api/categories/all", function(json){
+                    $('#panel_filters select[id="category"]').empty();
+                    $.each(json, function(i, obj){
+                        $('#panel_filters select[id="category"]').append($('<option>').text(obj.name).attr('value', obj.id));
+                    });
+                });
+            }
+            if($('#panel_filters select[id="list"] option').length<=0) {
+                $.getJSON($("#base_url").val()+"api/lists/all", function(json){
+                    $('#panel_filters select[id="list"]').empty();
+                    $.each(json, function(i, obj){
+                        $('#panel_filters select[id="list"]').append($('<option>').text(obj.name).attr('value', obj.id));
                     });
                 });
             }
